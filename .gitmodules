@@ -1,6 +1,6 @@
 [submodule "extern/betaflight"]
 	path = extern/betaflight
-	url = https://github.com/AJ92/betaflight.git
+	url = https://github.com/WesolyKotek/betaflight.git
 [submodule "extern/kissnet"]
 	path = extern/kissnet
 	url = https://github.com/timower/kissnet.git

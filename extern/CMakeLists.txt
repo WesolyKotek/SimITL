@@ -116,7 +116,7 @@ set(BETAFLIGHT_SOURCES
   flight/position.c
   #flight/feedforward.c
   flight/gps_rescue.c
-  #flight/autopilot.c
+  flight/autopilot.c
 
   io/serial.c
   io/beeper.c
