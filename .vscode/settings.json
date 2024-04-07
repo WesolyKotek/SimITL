@@ -1,8 +1,0 @@
-{
-  "files.associations": {
-    "timer_def.h": "c",
-    "limits.h": "c",
-    "rangefinder.h": "c",
-    "array": "cpp"
-  }
-}
