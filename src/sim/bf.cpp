@@ -27,6 +27,7 @@ namespace SimITL{
       #include "sensors/sensors.h"
 
       #include "drivers/accgyro/accgyro_virtual.h"
+      #include "drivers/barometer/barometer_virtual.h"
       #include "drivers/pwm_output.h"
       #include "drivers/pwm_output_fake.h"
       #include "sensors/current.h"
@@ -154,6 +155,18 @@ namespace SimITL{
       BF::virtualGyroSet(BF::virtualGyroDev, x, y, z);
     }
 
+    void updateBaro(const SimState& simState){
+      const auto TEMPERATURE_MSL = 2500; // temperature at MSL [K] (25 [C])
+      const auto PRESSURE_MSL = 101325; // pressure at MSL [Pa]
+      const auto LAPSE_RATE = 0.65f; // reduction in temperature with altitude for troposphere [K/m]
+      vec3 pos;
+      copy(pos, simState.statePacket.position);
+      const auto temperature_local = TEMPERATURE_MSL - LAPSE_RATE * pos[1] / 10;
+      const auto pressure_ratio = powf(TEMPERATURE_MSL / temperature_local, 5.256f);
+      const auto absolute_pressure = int32_t(PRESSURE_MSL / pressure_ratio);
+      BF::virtualBaroSet(absolute_pressure, int32_t(temperature_local));
+    }
+
     void updateGps(const SimState& simState){
       const auto DISTANCE_BETWEEN_TWO_LONGITUDE_POINTS_AT_EQUATOR_IN_HUNDREDS_OF_KILOMETERS = 1.113195f;
       const auto cosLon0 = 0.63141842418f;
@@ -212,6 +225,7 @@ namespace SimITL{
 
       updateBattery(simState);
       updateGyroAcc(simState);
+      updateBaro(simState);
       updateGps(simState);
 
       if (BF::sleep_timer > 0) {

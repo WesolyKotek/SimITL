@@ -1,0 +1,8 @@
+src/cmake_install.cmake
+src/CMakeCache.txt
+src/CMakeFiles
+src/extern
+.vscode
+compile_commands.json
+Makefile
+SimITL.exe
