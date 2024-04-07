@@ -156,12 +156,12 @@ namespace SimITL{
     }
 
     void updateBaro(const SimState& simState){
-      const auto TEMPERATURE_MSL = 2500; // temperature at MSL [K] (25 [C])
+      const auto TEMPERATURE_MSL = 2500; // temperature at MSL (25 [C])
       const auto PRESSURE_MSL = 101325; // pressure at MSL [Pa]
-      const auto LAPSE_RATE = 0.65f; // reduction in temperature with altitude for troposphere [K/m]
+      const auto LAPSE_RATE = 0.65f; // reduction in temperature with altitude for troposphere [C/m]
       vec3 pos;
       copy(pos, simState.statePacket.position);
-      const auto temperature_local = TEMPERATURE_MSL - LAPSE_RATE * pos[1] / 10;
+      const auto temperature_local = TEMPERATURE_MSL - LAPSE_RATE * pos[1] / 10.0f;
       const auto pressure_ratio = powf(TEMPERATURE_MSL / temperature_local, 5.256f);
       const auto absolute_pressure = int32_t(PRESSURE_MSL / pressure_ratio);
       BF::virtualBaroSet(absolute_pressure, int32_t(temperature_local));
